@@ -1,0 +1,15 @@
+{
+	"name": "celllab",
+	"version": "1.0.0",
+	"description": "A simple sandbox for playing with cellular automata",
+	"scripts": {
+		"dev": "vite src/index.html"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "1.6.2",
+		"vite": "^5.2.4"
+	}
+}
