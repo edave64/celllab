@@ -1,10 +1,48 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title>Celllab</title>
-		<script src="celllab.js"></script>
+		<script src="celllab.js" type="module"></script>
+		<style>
+			/* Flashbang protection */
+			html, body { background: #000; color: #FFF }
+		</style>
+		<link rel="stylesheet" href="./celllab.css">
 	</head>
 	<body onload="CL.init()">
+		<noscript>
+			<svg viewBox="0 0 24 7" title="No js">
+				<path d="M4,1V6H5V2H6V6H7V1H5Z" />
+				<path d="M8,1V6H11V1H9ZM9,2H10V5H9Z" />
+				<path d="M15,1V5H14V4H13V6H16V1Z" />
+				<path d="M17,1V4H19V5H17V6H20V3H18V2H20V1Z" />
+			</svg>
+			<p id="no_js_msg">
+				You need JS enabled to use this project. While there have been experiments to run
+				cellular automata with only CSS and HTML, this is not one of them.
+			</p>
+			<style>
+				body {
+					text-align: center;
+				}
+				svg {
+					fill: var(--cl-on);
+					background: var(--cl-off);
+					margin: auto;
+					max-height: calc(100vh - 7rem);
+					text-align: center;
+				}
+				p#no_js_msg {
+					padding: 2rem;
+					font-size: x-large;
+					font-family: sans-serif;
+				}
+				#cl_options {
+					display: none;
+				}
+			</style>
+		</noscript>
 		<div id="cl_options">
 			<p>
 				<button onclick="CL.playPause()">⏯︎</button>

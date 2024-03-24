@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "A simple sandbox for playing with cellular automata",
 	"scripts": {
-		"dev": "vite src/index.html"
+		"dev": "vite src/"
 	},
 	"keywords": [],
 	"author": "",

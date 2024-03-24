@@ -1,0 +1,38 @@
+:root {
+    --cl-dark-bg: #000;
+    --cl-dark-fg: #FFF;
+    --cl-dark-border: #FFF;
+    --cl-dark-on: #222288;
+    --cl-dark-off: #000022;
+
+    --cl-bg: var(--cl-dark-bg);
+    --cl-fg: var(--cl-dark-fg);
+    --cl-border: var(--cl-dark-border);
+    --cl-on: var(--cl-dark-on);
+    --cl-off: var(--cl-dark-off);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    background: var(--cl-bg);
+    color: var(--cl-fg);
+}
+
+canvas {
+    position: absolute;
+    inset: 0;
+}
+
+#cl_options {
+    width: 300px;
+    background: var(--cl-bg);
+    border: 1px solid var(--cl-border);
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1;
+}
