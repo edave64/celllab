@@ -15,6 +15,7 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -35,4 +36,27 @@ canvas {
     right: 10px;
     bottom: 10px;
     z-index: 1;
+
+    input {
+        padding: 2px;
+    }
+
+    display: table;
+
+    > p {
+        display: flex;
+        width: 100%;
+
+        > * {
+            width: 50%;
+        }
+    }
+}
+
+.cl_list {
+    display: flex;
+
+    button {
+        width: 50px
+    }
 }

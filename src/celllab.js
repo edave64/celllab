@@ -35,6 +35,16 @@ globalThis.CL = {
 		}
 	},
 
+	clear() {
+		this.world = new World(this.world.width, this.world.height);
+		CL.display.draw(this.world);
+	},
+
+	alternating() {
+		this.world = World.Alternating(this.world.width, this.world.height);
+		CL.display.draw(this.world);
+	},
+
 	ui: {
 		/** @type {HTMLInputElement} */
 		w_input: null,
@@ -42,6 +52,9 @@ globalThis.CL = {
 		h_input: null,
 		/** @type {HTMLDivElement} */
 		dialog: null,
+
+		/**  */
+		lookupFunction: null,
 
 		init() {
 			this.updatePosition();
@@ -52,6 +65,168 @@ globalThis.CL = {
 
 			this.w_input.value = CL.world.width;
 			this.h_input.value = CL.world.height;
+
+			const topOverflow = document.getElementById("cl_o_t");
+			const bottomOverflow = document.getElementById("cl_o_b");
+			const leftOverflow = document.getElementById("cl_o_l");
+			const rightOverflow = document.getElementById("cl_o_r");
+
+			const updateLookup = () => {
+				this.updateLookupFunction(
+					topOverflow.value,
+					bottomOverflow.value,
+					leftOverflow.value,
+					rightOverflow.value,
+				);
+			};
+
+			for (const ele of [topOverflow, bottomOverflow, leftOverflow, rightOverflow]) {
+				ele.addEventListener("change", updateLookup);
+			}
+			updateLookup();
+		},
+
+		/**
+		 * The types of borders
+		 * @typedef {'off' | 'on' | 'loop' | 'mirror0' | 'mirror1' | 'mobius' | 'fold'} BorderTypes
+		 */
+
+		/**
+		 *
+		 * @param {BorderTypes} topOverflow
+		 * @param {BorderTypes} bottomOverflow
+		 * @param {BorderTypes} leftOverflow
+		 * @param {BorderTypes} rightOverflow
+		 */
+		updateLookupFunction(topOverflow, bottomOverflow, leftOverflow, rightOverflow) {
+			let fnBody = "const width = this.width; const height = this.height;";
+			/** @type {BorderTypes[]} */
+			const loopingTypes = ["mirror0", "mirror1", "fold"];
+			const xNeedsLoop =
+				loopingTypes.includes(leftOverflow) || loopingTypes.includes(rightOverflow);
+			if (xNeedsLoop) {
+				fnBody += "while (x < 0 || x >= width) {\n";
+			}
+			fnBody += "if (x < 0) {\n";
+			switch (leftOverflow) {
+				case "off":
+				case "on":
+					fnBody += `return ${leftOverflow === "on" ? "1" : "0"}\n`;
+					break;
+				case "loop":
+					fnBody += "x = ((x % width) + width) % width;\n";
+					break;
+				case "mirror0":
+					fnBody += "x = -x - 1;\n";
+					break;
+				case "mirror1":
+					fnBody += "x = -x;\n";
+					break;
+				case "fold":
+					fnBody += "x = -x - 1;\n";
+					fnBody += "y = height - y - 1;";
+					break;
+				case "mobius":
+					fnBody += "x = ((x % width) + width) % width;\n";
+					fnBody += "y = height - y - 1;";
+					break;
+			}
+			fnBody += "}\n";
+			fnBody += "if (x >= width) {\n";
+			switch (rightOverflow) {
+				case "off":
+				case "on":
+					fnBody += `return ${rightOverflow === "on" ? "1" : "0"}\n`;
+					break;
+				case "loop":
+					fnBody += "x = x % width;\n";
+					break;
+				case "mirror0":
+					fnBody += "x = width - (x - width) - 1;\n";
+					break;
+				case "mirror1":
+					fnBody += "x = width - (x - width) - 2;\n";
+					break;
+				case "fold":
+					fnBody += "x = width - (x - width) - 1;\n";
+					fnBody += "y = height - y - 1;";
+					break;
+				case "mobius":
+					fnBody += "x = x % width;\n";
+					fnBody += "y = height - y - 1;";
+					break;
+			}
+			if (xNeedsLoop) {
+				fnBody += "}\n";
+			}
+			fnBody += "}\n";
+			const yNeedsLoop =
+				loopingTypes.includes(topOverflow) || loopingTypes.includes(bottomOverflow);
+			if (yNeedsLoop) {
+				fnBody += "while (y < 0 || y >= height) {;\n";
+			}
+
+			fnBody += "if (y < 0) {\n";
+			switch (topOverflow) {
+				case "off":
+				case "on":
+					fnBody += `return ${topOverflow === "on" ? "1" : "0"}\n`;
+					break;
+				case "loop":
+					fnBody += "y = ((y % height) + height) % height;\n";
+					break;
+				case "mirror0":
+					fnBody += "y = -y - 1;\n";
+					break;
+				case "mirror1":
+					fnBody += "y = -y;\n";
+					break;
+				case "fold":
+					fnBody += "y = -y - 1;\n";
+					fnBody += "x = width - x - 1;\n";
+					break;
+				case "mobius":
+					fnBody += "y = ((y % height) + height) % height;\n";
+					fnBody += "x = width - x - 1;\n";
+					break;
+			}
+			fnBody += "}\n";
+			fnBody += "if (y >= height) {\n";
+			switch (bottomOverflow) {
+				case "off":
+				case "on":
+					fnBody += `return ${bottomOverflow === "on" ? "1" : "0"}\n`;
+					break;
+				case "loop":
+					fnBody += "y = y % height;\n";
+					break;
+				case "mirror0":
+					fnBody += "y = height - (y - height) - 1;\n";
+					break;
+				case "mirror1":
+					fnBody += "y = height - (y - height) - 2;\n";
+					break;
+				case "fold":
+					fnBody += "y = height - (y - height) - 1;\n";
+					fnBody += "x = width - x - 1;\n";
+					break;
+				case "mobius":
+					fnBody += "y = y % height;\n";
+					fnBody += "x = width - x - 1;\n";
+					break;
+			}
+			if (yNeedsLoop) {
+				fnBody += "}\n";
+			}
+			fnBody += "}\n";
+			fnBody += `
+			const idx = x + y * width;
+			const chunk = Math.floor(idx / 8);
+			const pos = 7 - (idx - chunk * 8);
+			const chunkData = this.data[chunk];
+			return +!!(chunkData & (1 << pos));`;
+
+			this.lookupFunction = new Function("x", "y", fnBody);
 		},
 
 		updatePosition() {},
@@ -74,12 +249,20 @@ globalThis.CL = {
 			});
 		},
 
+		lastWidth: null,
+		lastHeight: null,
+
 		/**
 		 * @param {World} world
 		 */
 		async draw(world) {
 			const canvas = CL.display.canvas;
 			const ctx = canvas.getContext("2d");
+			if (this.lastWidth !== world.width || this.lastHeight !== world.height) {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				this.lastWidth = world.width;
+				this.lastHeight = world.height;
+			}
 			const imageData = ctx.createImageData(world.width, world.height, {
 				colorSpace: "srgb",
 			});
@@ -222,20 +405,23 @@ class World {
 	}
 
 	step() {
-		const newWorld = new World(+CL.ui.w_input.value, +CL.ui.h_input.value);
+		const newWidth = +CL.ui.w_input.value;
+		const newHeight = +CL.ui.h_input.value;
+		const newWorld = new World(newWidth, newHeight);
+		const lookup = CL.ui.lookupFunction.bind(this);
 
-		for (let x = 0; x < this.width; ++x) {
-			for (let y = 0; y < this.height; ++y) {
-				let own = this.lookup(x, y);
+		for (let x = 0; x < newWidth; ++x) {
+			for (let y = 0; y < newHeight; ++y) {
+				let own = lookup(x, y);
 				const neighbors =
-					this.lookup(x - 1, y - 1) +
-					this.lookup(x, y - 1) +
-					this.lookup(x + 1, y - 1) +
-					this.lookup(x - 1, y) +
-					this.lookup(x + 1, y) +
-					this.lookup(x - 1, y + 1) +
-					this.lookup(x, y + 1) +
-					this.lookup(x + 1, y + 1);
+					lookup(x - 1, y - 1) +
+					lookup(x, y - 1) +
+					lookup(x + 1, y - 1) +
+					lookup(x - 1, y) +
+					lookup(x + 1, y) +
+					lookup(x - 1, y + 1) +
+					lookup(x, y + 1) +
+					lookup(x + 1, y + 1);
 
 				if (own === 0) {
 					if (neighbors === 3) own = 1;
@@ -282,23 +468,7 @@ class World {
 	 * @returns {number}
 	 */
 	lookup(x, y) {
-		if (x < 0) {
-			return 0;
-		}
-		if (x >= this.width) {
-			return 0;
-		}
-		if (y < 0) {
-			return 0;
-		}
-		if (y >= this.height) {
-			return 0;
-		}
-		const idx = x + y * this.width;
-		const chunk = Math.floor(idx / 8);
-		const pos = 7 - (idx - chunk * 8);
-		const chunkData = this.data[chunk];
-		return +!!(chunkData & (1 << pos));
+		return CL.ui.lookupFunction.call(this, x, y);
 	}
 
 	/**

@@ -44,10 +44,10 @@
 			</style>
 		</noscript>
 		<div id="cl_options">
-			<p>
+			<div class="cl_list">
 				<button onclick="CL.playPause()">⏯︎</button>
 				<button onclick="CL.step()">⏭︎</button>
-			</p>
+			</div>
 			<p>
 				<label>Width: </label>
 				<input id="cl_w" type="number" step="1" min="1" />
@@ -55,6 +55,58 @@
 			<p>
 				<label>Height: </label>
 				<input id="cl_h" type="number" step="1" min="1" />
+			</p>
+			<p>
+				<label>Top Overflow: </label>
+				<select id="cl_o_t">
+					<option selected value="off">Off</option>
+					<option value="on">On</option>
+					<option value="loop">Loop</option>
+					<option value="mirror0">Mirror 0</option>
+					<option value="mirror1">Mirror 1</option>
+					<option value="fold">Fold</option>
+					<option value="mobius">Mobius</option>
+				</select>
+			</p>
+			<p>
+				<label>Bottom Overflow: </label>
+				<select id="cl_o_b">
+					<option selected value="off">Off</option>
+					<option value="on">On</option>
+					<option value="loop">Loop</option>
+					<option value="mirror0">Mirror 0</option>
+					<option value="mirror1">Mirror 1</option>
+					<option value="fold">Fold</option>
+					<option value="mobius">Mobius</option>
+				</select>
+			</p>
+			<p>
+				<label>Left Overflow: </label>
+				<select id="cl_o_l">
+					<option selected value="off">Off</option>
+					<option value="on">On</option>
+					<option value="loop">Loop</option>
+					<option value="mirror0">Mirror 0</option>
+					<option value="mirror1">Mirror 1</option>
+					<option value="fold">Fold</option>
+					<option value="mobius">Mobius</option>
+				</select>
+			</p>
+			<p>
+				<label>Right Overflow: </label>
+				<select id="cl_o_r">
+					<option selected value="off">Off</option>
+					<option value="on">On</option>
+					<option value="loop">Loop</option>
+					<option value="mirror0">Mirror 0</option>
+					<option value="mirror1">Mirror 1</option>
+					<option value="fold">Fold</option>
+					<option value="mobius">Mobius</option>
+				</select>
+			</p>
+			<p>
+				<button onclick="CL.clear()">Clear</button>
+				<button onclick="CL.alternating()">Alternating</button>
 			</p>
 		</div>
 	</body>
