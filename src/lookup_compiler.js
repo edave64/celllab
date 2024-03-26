@@ -115,7 +115,7 @@ export function updateLookupFunction(topOverflow, bottomOverflow, leftOverflow, 
  * @returns {string}
  */
 function xySwapper(str) {
-	return str.replace(/(x|y|width|height)/, (v) => {
+	return str.replace(/(x|y|width|height)/g, (v) => {
 		if (v === "x") return "y";
 		if (v === "y") return "x";
 		if (v === "width") return "height";
