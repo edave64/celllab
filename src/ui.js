@@ -8,6 +8,9 @@ let h_input;
 /** @type {HTMLDivElement} */
 let dialog;
 
+/** @type {HTMLButtonElement} */
+let playPauseBtn;
+
 let width = 0;
 let height = 0;
 
@@ -25,6 +28,7 @@ export function init() {
 	w_input = /** @type {HTMLInputElement} */ (document.getElementById("cl_w"));
 	h_input = /** @type {HTMLInputElement} */ (document.getElementById("cl_h"));
 	dialog = /** @type {HTMLDivElement} */ (document.getElementById("dialog"));
+	playPauseBtn = /** @type {HTMLButtonElement} */ (document.getElementById("cl_playPause"));
 
 	width = +w_input.value;
 	height = +h_input.value;
@@ -92,15 +96,15 @@ export function setHeight(h) {
 function updatePosition() {}
 
 export function step() {
-	if (runner !== -1) {
-		cancelAnimationFrame(runner);
-		runner = -1;
-	}
+	pause();
 	world = world.step(+w_input.value, +h_input.value, lastLookup);
 	CL.display.draw(world);
 }
 
-export function playPause() {
+/**
+ * @param {HTMLButtonElement} element
+ */
+export function playPause(element) {
 	if (runner !== -1) {
 		pause();
 	} else {
@@ -111,6 +115,9 @@ export function playPause() {
 export function pause() {
 	cancelAnimationFrame(runner);
 	runner = -1;
+
+	playPauseBtn.innerText = "▶️";
+	playPauseBtn.title = "Play";
 }
 
 export function play() {
@@ -120,6 +127,9 @@ export function play() {
 		CL.display.draw(world);
 	};
 	exec();
+
+	playPauseBtn.innerText = "⏸️";
+	playPauseBtn.title = "Pause";
 }
 
 export function clear() {

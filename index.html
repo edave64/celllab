@@ -43,11 +43,15 @@
 				}
 			</style>
 		</noscript>
+		<div id="cl_toolbar">
+			<button id="cl_playPause" onclick="CL.ui.playPause()" title="Play">▶️</button>
+			<button onclick="CL.ui.step()">⏭︎</button>
+			<div class="spacer"></div>
+			<!--
+			<button onclick="CL.ui.step()">⏭︎</button>
+			-->
+		</div>
 		<div id="cl_options">
-			<div class="cl_list">
-				<button onclick="CL.ui.playPause()">⏯︎</button>
-				<button onclick="CL.ui.step()">⏭︎</button>
-			</div>
 			<p>
 				<label>Width: </label>
 				<input id="cl_w" type="number" step="1" min="2" value="30" />
