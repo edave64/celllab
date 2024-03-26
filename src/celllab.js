@@ -1,5 +1,5 @@
-import * as ui from "./ui";
-import * as display from "./display";
+import * as ui from "./ui.js";
+import * as display from "./display.js";
 
 globalThis.CL = {
 	init() {

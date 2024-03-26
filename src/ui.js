@@ -1,5 +1,5 @@
-import { updateLookupFunction } from "./lookup_compiler";
-import { World } from "./world";
+import { updateLookupFunction } from "./lookup_compiler.js";
+import { World } from "./world.js";
 
 /** @type {HTMLInputElement} */
 let w_input;

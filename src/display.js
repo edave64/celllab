@@ -1,4 +1,4 @@
-import * as ui from "./ui";
+import * as ui from "./ui.js";
 
 const canvas = document.createElement("canvas");
 const zoom = 16;
