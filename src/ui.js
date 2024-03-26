@@ -115,9 +115,9 @@ export function pause() {
 
 export function play() {
 	const exec = () => {
+		runner = requestAnimationFrame(exec);
 		world = world.step(+w_input.value, +h_input.value, lastLookup);
 		CL.display.draw(world);
-		runner = requestAnimationFrame(exec);
 	};
 	exec();
 }
