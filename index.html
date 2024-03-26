@@ -45,16 +45,16 @@
 		</noscript>
 		<div id="cl_options">
 			<div class="cl_list">
-				<button onclick="CL.playPause()">⏯︎</button>
-				<button onclick="CL.step()">⏭︎</button>
+				<button onclick="CL.ui.playPause()">⏯︎</button>
+				<button onclick="CL.ui.step()">⏭︎</button>
 			</div>
 			<p>
 				<label>Width: </label>
-				<input id="cl_w" type="number" step="1" min="1" />
+				<input id="cl_w" type="number" step="1" min="2" value="30" />
 			</p>
 			<p>
 				<label>Height: </label>
-				<input id="cl_h" type="number" step="1" min="1" />
+				<input id="cl_h" type="number" step="1" min="2" value="30" />
 			</p>
 			<p>
 				<label>Top Overflow: </label>
@@ -105,8 +105,8 @@
 				</select>
 			</p>
 			<p>
-				<button onclick="CL.clear()">Clear</button>
-				<button onclick="CL.alternating()">Alternating</button>
+				<button onclick="CL.ui.clear()">Clear</button>
+				<button onclick="CL.ui.alternating()">Alternating</button>
 			</p>
 		</div>
 	</body>
