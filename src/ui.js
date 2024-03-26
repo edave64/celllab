@@ -102,16 +102,24 @@ export function step() {
 
 export function playPause() {
 	if (runner !== -1) {
-		cancelAnimationFrame(runner);
-		runner = -1;
+		pause();
 	} else {
-		const exec = () => {
-			world = world.step(+w_input.value, +h_input.value, lastLookup);
-			CL.display.draw(world);
-			runner = requestAnimationFrame(exec);
-		};
-		exec();
+		play();
 	}
+}
+
+export function pause() {
+	cancelAnimationFrame(runner);
+	runner = -1;
+}
+
+export function play() {
+	const exec = () => {
+		world = world.step(+w_input.value, +h_input.value, lastLookup);
+		CL.display.draw(world);
+		runner = requestAnimationFrame(exec);
+	};
+	exec();
 }
 
 export function clear() {

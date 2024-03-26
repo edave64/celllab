@@ -7,11 +7,35 @@ export function init() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	document.body.appendChild(canvas);
-	canvas.addEventListener("click", (e) => {
+
+	/** @type {boolean | null} */
+	let currentDrawValue = null;
+
+	canvas.addEventListener("mousedown", (e) => {
 		const x = Math.floor(e.clientX / zoom);
 		const y = Math.floor(e.clientY / zoom);
-		ui.world.invert(x, y);
+
+		if (x < 0 || x >= ui.world.width || y < 0 || y >= ui.world.height) return;
+
+		currentDrawValue = !ui.world.lookup(x, y);
+		ui.world.set(x, y, currentDrawValue);
 		draw(ui.world);
+	});
+
+	canvas.addEventListener("mousemove", (e) => {
+		if (currentDrawValue === null) return;
+
+		const x = Math.floor(e.clientX / zoom);
+		const y = Math.floor(e.clientY / zoom);
+
+		if (x < 0 || x >= ui.world.width || y < 0 || y >= ui.world.height) return;
+
+		ui.world.set(x, y, currentDrawValue);
+		draw(ui.world);
+	});
+
+	canvas.addEventListener("mouseup", () => {
+		currentDrawValue = null;
 	});
 }
 

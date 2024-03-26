@@ -51,12 +51,51 @@ export class World {
 	 *
 	 * @param {number} x
 	 * @param {number} y
+	 * @returns {number}
+	 */
+	lookup(x, y) {
+		const idx = x + y * this.width;
+		const chunk = Math.floor(idx / 8);
+		const pos = 7 - (idx - chunk * 8);
+		const chunkData = this.data[chunk];
+		return +!!(chunkData & (1 << pos));
+	}
+
+	/**
+	 *
+	 * @param {number} x
+	 * @param {number} y
 	 */
 	setTrue(x, y) {
 		const idx = x + y * this.width;
 		const chunk = Math.floor(idx / 8);
 		const pos = 7 - (idx - chunk * 8);
 		this.data[chunk] |= 1 << pos;
+	}
+
+	/**
+	 *
+	 * @param {number} x
+	 * @param {number} y
+	 */
+	setFalse(x, y) {
+		const idx = x + y * this.width;
+		const chunk = Math.floor(idx / 8);
+		const pos = 7 - (idx - chunk * 8);
+		this.data[chunk] &= ~(1 << pos);
+	}
+
+	/**
+	 * @param {number} x
+	 * @param {number} y
+	 * @param {boolean} value
+	 */
+	set(x, y, value) {
+		if (value) {
+			this.setTrue(x, y);
+		} else {
+			this.setFalse(x, y);
+		}
 	}
 
 	/**
