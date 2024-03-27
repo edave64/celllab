@@ -10,44 +10,6 @@ export class World {
 	}
 
 	/**
-	 * @param {number} newWidth
-	 * @param {number} newHeight
-	 * @param {Lookup} lookupFunction
-	 * @returns
-	 */
-	step(newWidth, newHeight, lookupFunction) {
-		const newWorld = new World(newWidth, newHeight);
-		const lookup = lookupFunction.bind(null, this);
-
-		for (let x = 0; x < newWidth; ++x) {
-			for (let y = 0; y < newHeight; ++y) {
-				let own = lookup(x, y);
-				const neighbors =
-					lookup(x - 1, y - 1) +
-					lookup(x, y - 1) +
-					lookup(x + 1, y - 1) +
-					lookup(x - 1, y) +
-					lookup(x + 1, y) +
-					lookup(x - 1, y + 1) +
-					lookup(x, y + 1) +
-					lookup(x + 1, y + 1);
-
-				if (own === 0) {
-					if (neighbors === 3) own = 1;
-				} else {
-					if (neighbors < 2 || neighbors > 3) own = 0;
-				}
-
-				if (own) {
-					newWorld.setTrue(x, y);
-				}
-			}
-		}
-
-		return newWorld;
-	}
-
-	/**
 	 *
 	 * @param {number} x
 	 * @param {number} y
