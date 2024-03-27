@@ -43,22 +43,28 @@ export function init() {
 let lastWidth = null;
 /** @type {number | null} */
 let lastHeight = null;
+/** @type {HTMLCanvasElement} */
+let nativeSizeCanvas;
 
 /**
  * @param {import('./world').World} world
  */
-export async function draw(world) {
+export function draw(world) {
 	const ctx = canvas.getContext("2d");
 	if (!ctx) throw new Error("Failed to create painting context.");
 
-	if (lastWidth !== world.width || lastHeight !== world.height) {
+	if (lastWidth !== world.width || lastHeight !== world.height || !nativeSizeCanvas) {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		lastWidth = world.width;
 		lastHeight = world.height;
+		nativeSizeCanvas = document.createElement("canvas");
+		nativeSizeCanvas.width = world.width;
+		nativeSizeCanvas.height = world.height;
 	}
-	const imageData = ctx.createImageData(world.width, world.height, {
-		colorSpace: "srgb",
-	});
+	const nativeCtx = nativeSizeCanvas.getContext("2d");
+	if (!nativeCtx) throw new Error("Failed to create painting context.");
+
+	const imageData = nativeCtx.getImageData(0, 0, lastWidth, lastHeight, { colorSpace: "srgb" });
 	const img32 = new Uint32Array(imageData.data.buffer);
 	const bytes = Math.ceil((world.width * world.height) / 8);
 
@@ -78,9 +84,10 @@ export async function draw(world) {
 		img32[pxOffset + 6] = worldByte & 0b00000010 ? onColor : offColor;
 		img32[pxOffset + 7] = worldByte & 0b00000001 ? onColor : offColor;
 	}
-	const bmp = await createImageBitmap(imageData);
+
+	nativeCtx.putImageData(imageData, 0, 0);
 	ctx.imageSmoothingEnabled = false;
-	ctx.drawImage(bmp, 0, 0, world.width * zoom, world.height * zoom);
+	ctx.drawImage(nativeSizeCanvas, 0, 0, world.width * zoom, world.height * zoom);
 }
 
 const colors = {
