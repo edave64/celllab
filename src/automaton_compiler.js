@@ -9,16 +9,15 @@ import { World } from "./world";
  */
 export function compileLifeLike(str) {
 	if (!str.includes("/")) return null;
-	const numbers = str.match(/\d+/g);
-	if (!numbers || numbers.length !== 2) return null;
+	const numbers = str.split("/");
 	let born;
 	let survive;
 	if (str.startsWith("B")) {
-		born = Array.from(numbers[0]);
-		survive = Array.from(numbers[1]);
+		born = Array.from(numbers[0].replace(/[^\d]/g, ""));
+		survive = Array.from(numbers[1].replace(/[^\d]/g, ""));
 	} else {
-		survive = Array.from(numbers[0]);
-		born = Array.from(numbers[1]);
+		survive = Array.from(numbers[0].replace(/[^\d]/g, ""));
+		born = Array.from(numbers[1].replace(/[^\d]/g, ""));
 	}
 
 	const bornTest = born.length === 0 ? "false" : born.map((x) => `neighbors === ${x}`).join(" || ");

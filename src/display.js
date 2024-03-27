@@ -3,9 +3,16 @@ import * as ui from "./ui.js";
 const canvas = document.createElement("canvas");
 const zoom = 16;
 
+/** @type {number | null} */
+let lastWidth = null;
+/** @type {number | null} */
+let lastHeight = null;
+/** @type {HTMLCanvasElement} */
+let nativeSizeCanvas;
+
 export function init() {
 	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	canvas.height = window.innerHeight - 32;
 	document.body.appendChild(canvas);
 
 	/** @type {boolean | null} */
@@ -37,14 +44,18 @@ export function init() {
 	canvas.addEventListener("mouseup", () => {
 		currentDrawValue = null;
 	});
-}
 
-/** @type {number | null} */
-let lastWidth = null;
-/** @type {number | null} */
-let lastHeight = null;
-/** @type {HTMLCanvasElement} */
-let nativeSizeCanvas;
+	window.addEventListener("resize", () => {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight - 32;
+		if (lastWidth && lastHeight && nativeSizeCanvas) {
+			const ctx = canvas.getContext("2d");
+			if (!ctx) throw new Error("Failed to create painting context.");
+			ctx.imageSmoothingEnabled = false;
+			ctx.drawImage(nativeSizeCanvas, 0, 0, lastWidth * zoom, lastHeight * zoom);
+		}
+	});
+}
 
 /**
  * @param {import('./world').World} world
