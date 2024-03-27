@@ -62,55 +62,41 @@
 			</p>
 			<p>
 				<label>Top Overflow: </label>
-				<select id="cl_o_t">
-					<option selected value="off">Off</option>
-					<option value="on">On</option>
-					<option value="loop">Loop</option>
-					<option value="mirror0">Mirror 0</option>
-					<option value="mirror1">Mirror 1</option>
-					<option value="fold">Fold</option>
-					<option value="mobius">Mobius</option>
-				</select>
+				<select id="cl_o_t" class="cl_border_behavior" data-default="off"></select>
 			</p>
 			<p>
 				<label>Bottom Overflow: </label>
-				<select id="cl_o_b">
-					<option selected value="off">Off</option>
-					<option value="on">On</option>
-					<option value="loop">Loop</option>
-					<option value="mirror0">Mirror 0</option>
-					<option value="mirror1">Mirror 1</option>
-					<option value="fold">Fold</option>
-					<option value="mobius">Mobius</option>
-				</select>
+				<select id="cl_o_b" class="cl_border_behavior" data-default="off"></select>
 			</p>
 			<p>
 				<label>Left Overflow: </label>
-				<select id="cl_o_l">
-					<option selected value="off">Off</option>
-					<option value="on">On</option>
-					<option value="loop">Loop</option>
-					<option value="mirror0">Mirror 0</option>
-					<option value="mirror1">Mirror 1</option>
-					<option value="fold">Fold</option>
-					<option value="mobius">Mobius</option>
-				</select>
+				<select id="cl_o_l" class="cl_border_behavior" data-default="off"></select>
 			</p>
 			<p>
 				<label>Right Overflow: </label>
-				<select id="cl_o_r">
-					<option selected value="off">Off</option>
-					<option value="on">On</option>
-					<option value="loop">Loop</option>
-					<option value="mirror0">Mirror 0</option>
-					<option value="mirror1">Mirror 1</option>
-					<option value="fold">Fold</option>
-					<option value="mobius">Mobius</option>
+				<select id="cl_o_r" class="cl_border_behavior" data-default="off"></select>
+			</p>
+			<p>
+				<label>Rules: </label>
+				<select id="cl_rule">
+					<option selected value="B3/S23">Game of Life</option>
+					<option selected value="B1357/S1357">Replicator</option>
+					<option selected value="B2/S">Seed</option>
+					<option selected value="B3/S012345678">Life without Death</option>
+					<option selected value="B34/S34">34 Life</option>
+					<option selected value="B35678/S5678">Diamoeba</option>
+					<option selected value="B36/S125">2x2</option>
+					<option selected value="B36/S23">HighLife</option>
+					<option selected value="B3678/S34678">Day & Night</option>
+					<option selected value="B368/S245">Morley</option>
+					<option selected value="B4678/S35678">Anneal</option>
 				</select>
 			</p>
 			<p>
 				<button onclick="CL.ui.clear()">Clear</button>
 				<button onclick="CL.ui.alternating()">Alternating</button>
+				<button onclick="CL.ui.invert()">Invert</button>
+				<button onclick="CL.ui.random()">Random</button>
 			</p>
 		</div>
 	</body>

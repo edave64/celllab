@@ -12,6 +12,17 @@
  */
 const loopingTypes = ["mirror0", "mirror1", "fold"];
 
+/** @type {Record<BorderTypes, string>} */
+export const borderBehaviors = {
+	on: "On",
+	off: "Off",
+	fold: "Fold",
+	loop: "Loop",
+	mirror0: "Mirror 0",
+	mirror1: "Mirror 1",
+	mobius: "Möbius",
+};
+
 const lookupXunderflow = {
 	loop: "x = ((x % width) + width) % width;\n",
 	mirror0: "x = -x - 1;\n",

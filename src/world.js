@@ -110,6 +110,14 @@ export class World {
 		this.data[chunk] ^= 1 << pos;
 	}
 
+	invertAll() {
+		const ret = new World(this.width, this.height);
+		for (let i = 0; i < ret.data.length; ++i) {
+			ret.data[i] = this.data[i] ^ 0xff;
+		}
+		return ret;
+	}
+
 	/**
 	 * @param {number} h
 	 * @param {number} w
@@ -119,6 +127,19 @@ export class World {
 		const ret = new World(h, w);
 		for (let i = 0; i < ret.data.length; i++) {
 			ret.data[i] = 0b01010101;
+		}
+		return ret;
+	}
+
+	/**
+	 * @param {number} h
+	 * @param {number} w
+	 * @returns {World}
+	 */
+	static Random(h, w) {
+		const ret = new World(h, w);
+		for (let i = 0; i < ret.data.length; i++) {
+			ret.data[i] = 255 * Math.random();
 		}
 		return ret;
 	}
@@ -141,7 +162,9 @@ export class World {
 
 /**
  * @callback Automaton
- * @param {World} world
- * @param {Lookup} lookup
+ * @param {World} oldWorld
+ * @param {number} newWidth
+ * @param {number} newHeight
+ * @param {Lookup} lookupFunction
  * @return {World}
  */
