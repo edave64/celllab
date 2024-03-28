@@ -1,4 +1,4 @@
-import { World } from "./world";
+import { World } from "./world.js";
 
 /**
  * Golly/RLE format : B1357/S1357
