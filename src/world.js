@@ -80,6 +80,10 @@ export class World {
 		return ret;
 	}
 
+	serialize() {
+		return JSON.stringify([this.width, this.height, Array.from(this.data)]);
+	}
+
 	/**
 	 * @param {number} h
 	 * @param {number} w
@@ -103,6 +107,18 @@ export class World {
 		for (let i = 0; i < ret.data.length; i++) {
 			ret.data[i] = 255 * Math.random();
 		}
+		return ret;
+	}
+
+	/**
+	 *
+	 * @param {string} json
+	 * @returns {World}
+	 */
+	static Deserialize(json) {
+		const data = JSON.parse(json);
+		const ret = new World(data[0], data[1]);
+		ret.data = new Uint8Array(data[2]);
 		return ret;
 	}
 }

@@ -57,6 +57,27 @@ export function init() {
 	});
 }
 
+let exporting = false;
+
+export function startExport() {
+	exporting = true;
+}
+
+export function stopExport() {
+	exporting = false;
+}
+
+export function singleExport() {
+	const url = nativeSizeCanvas.toDataURL();
+	const a = document.createElement("a");
+	a.style.display = "none";
+	a.setAttribute("download", "celllab.png");
+	a.setAttribute("href", url);
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+}
+
 /**
  * @param {import('./world').World} world
  */
@@ -97,6 +118,9 @@ export function draw(world) {
 	}
 
 	nativeCtx.putImageData(imageData, 0, 0);
+	if (exporting) {
+		singleExport();
+	}
 	ctx.imageSmoothingEnabled = false;
 	ctx.drawImage(nativeSizeCanvas, 0, 0, world.width * zoom, world.height * zoom);
 }
